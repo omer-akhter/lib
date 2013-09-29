@@ -86,7 +86,7 @@ class PathType( object ):
                 while existing_path and not os.path.exists( existing_path ):
                     existing_path, _ = os.path.split( existing_path )
 
-                if not ( os.path.exists( existing_path ) and os.access( path_str, os.W_OK ) ):
+                if not ( os.path.exists( existing_path ) and os.access( existing_path, os.W_OK ) ):
                     raise ValueError(
                         'permission to write on path %s are not available' %
                         path_str )
@@ -109,6 +109,8 @@ class LogType( object ):
     Instances of LogType are typically passed as type= arguments to the
     ArgumentParser add_argument() method.
     """
+
+    choices = map( lambda x_y2: x_y2[0], LOGGING_CHOICES )
 
     def __init__( self, set_=True,
                   format_='%(levelname)s: %(message)s' ):
