@@ -1,0 +1,42 @@
+#!/bin/bash
+
+URL=$1
+CUT_DIRS=$(echo $URL | sed -E 's|https?://[^/]*(.*)|\1|' | sed 's|/| |g' | wc -w)
+
+CMD=(wget
+--no-verbose
+
+# use server timestamp to save file and
+# download the file only if its newer
+--timestamping
+
+# save file with correct extension using
+# mime type
+--adjust-extension
+
+# convert links for local viewing
+--convert-links
+
+# download required css etc
+--page-requisites
+
+# don't ascend to parent in url
+--no-parent
+
+# follow relative links only
+#--relative
+
+--mirror
+
+# don't create host dirs eg. google.com
+--no-host-directories
+
+# remove depth from directory hierrachy
+# while saving files
+--cut-dirs=$CUT_DIRS
+)
+
+echo ${CMD[@]} \"$URL\"
+${CMD[@]} "$URL"
+
+

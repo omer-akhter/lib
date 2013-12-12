@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+pushd . > /dev/null
+
+PATH_BASE='/sys/class/power_supply/'
+
+cd $PATH_BASE
+
+for B in $(ls | grep BAT[[:digit:]][[:digit:]]*); do
+	echo $B
+	echo =====================
+
+	c_full=$(cat $B/charge_full)
+	c_fulld=$(cat $B/charge_full_design)
+	c_now=$(cat $B/charge_now)
+
+  #echo $c_full
+  #echo $c_fulld
+  #echo $c_now
+  
+	c_perc=$(expr $c_now \* 100 / $c_full)
+	echo "Charge:   $c_perc%"
+	
+	c_cap=$(expr $c_full \* 100 / $c_fulld)
+	echo "Capacity: $c_cap%"
+
+	echo "Status:   $(cat $B/status)"
+	echo ---------------------
+	echo
+done
+
+popd > /dev/null
+
