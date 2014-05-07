@@ -5,7 +5,7 @@ import os
 from ioutil import path_con, path_abs
 
 
-LOGGING_CHOICES = (
+LOGGING_CHOICES = ( 
     ( 'q', None ),
     ( 'quiet', None ),
     ( 'd', logging.DEBUG ),
@@ -18,7 +18,7 @@ LOGGING_CHOICES = (
     ( 'error', logging.ERROR ),
     ( 'c', logging.CRITICAL ),
     ( 'critical', logging.CRITICAL ),
-)
+ )
 
 
 class PathType( object ):
@@ -66,7 +66,7 @@ class PathType( object ):
 
         if self._check_read:
             if not self._r_ok:
-                raise ValueError(
+                raise ValueError( 
                     'permission to read from path %s are not available' %
                     path_str )
         elif self._check_exists:
@@ -78,7 +78,7 @@ class PathType( object ):
         if self._check_write:
             if self._exists:
                 if not self._w_ok:
-                    raise ValueError(
+                    raise ValueError( 
                         'permission to write on path %s are not available' %
                         path_str )
             else:
@@ -87,7 +87,7 @@ class PathType( object ):
                     existing_path, _ = os.path.split( existing_path )
 
                 if not ( os.path.exists( existing_path ) and os.access( existing_path, os.W_OK ) ):
-                    raise ValueError(
+                    raise ValueError( 
                         'permission to write on path %s are not available' %
                         path_str )
 
@@ -120,7 +120,7 @@ class LogType( object ):
     def __call__( self, val_str ):
         self._val_str = val_str
         try:
-            self._log_level = filter(
+            self._log_level = filter( 
                 lambda x_y1: x_y1[0] == val_str,
                 LOGGING_CHOICES )[0][-1]
         except:
@@ -128,7 +128,7 @@ class LogType( object ):
 
         if self._set:
             if self._log_level is not None:
-                logging.basicConfig(
+                logging.basicConfig( 
                     format=self._format,
                     level=self._log_level )
             else:
@@ -139,7 +139,7 @@ class LogType( object ):
     def __repr__( self, *args, **kwargs ):
         repr_str = self.__class__.__name__
         try:
-            repr_str += '(%s)' % filter(
+            repr_str += '(%s)' % filter( 
                 lambda x_y: x_y[0] == self._val_str,
                 LOGGING_CHOICES )[-1][0]
         except:
@@ -157,7 +157,7 @@ class ArgParser2( argparse.ArgumentParser ):
         if parents is None:
             parents = []
 
-        argparse.ArgumentParser.__init__(
+        argparse.ArgumentParser.__init__( 
             self, prog, usage, description, epilog, version,
             parents, formatter_class, prefix_chars, fromfile_prefix_chars,
             argument_default, conflict_handler, add_help )

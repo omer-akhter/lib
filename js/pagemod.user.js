@@ -7,6 +7,17 @@
 // @require     http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js
 // ==/UserScript==
 
+var _log = function() {
+  if ( GM_log ) {
+    GM_log( arguments )
+  }
+  if ( console.log ) {
+    console.log( argumets );
+  }
+}
+
+_log( '__pagemods__' );
+
 window.addEvent( 'domready', function() {
   if ( window.__pagemods__ ) {
     return;
@@ -50,7 +61,7 @@ window.addEvent( 'domready', function() {
     handleUtubeFrame : function( frameEle, index, frameEleList ) {
       frameEle = document.id( frameEle );
       var url = frameEle.get( 'src' );
-      //console.log( 'iframe.src:', url );
+      //_log( 'iframe.src:', url );
 
       if ( !/youtube\.com\/embed/.test( url ) ) {
         return;
@@ -62,7 +73,7 @@ window.addEvent( 'domready', function() {
     handleUtubeFrames : function() {
       var frameEleList = $$( 'iframe' );
       //var frameEleList = document.getElementsByTagName( 'iframe' );
-      console.log( 'frames:', frameEleList.length );
+      _log( 'frames:', frameEleList.length );
 
       Array.each( frameEleList, this.handleUtubeFrame, this );
     },
@@ -85,7 +96,7 @@ window.addEvent( 'domready', function() {
     initialize : function( options, frameEle ) {
       this.setOptions( options );
       this.frameEle = document.id( frameEle );
-      // console.log( 'frameEle:', frameEle );
+      // _log( 'frameEle:', frameEle );
     },
 
     create : function() {
@@ -125,7 +136,7 @@ window.addEvent( 'domready', function() {
         this.frameEle.contentWindow.stop();
       }
       catch ( e ) {
-        console.log( 'could not stop frame loading:', e );
+        _log( 'could not stop frame loading:', e );
       }
 
       return this;
@@ -146,7 +157,7 @@ window.addEvent( 'domready', function() {
     }
   } );
 
-  console.log( '### page-mods ###:', window.location.href );
+  _log( '### page-mods ###:', window.location.href );
   window.__pagemods__ = new PageMod();
   window.__pagemods__.run();
 } );

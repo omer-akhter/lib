@@ -47,3 +47,28 @@ def which( program ):
     return None
 
 #------------------------------------------------------------------------------
+
+#===============================================================================
+# Source: https://stackoverflow.com/a/17782753
+#=========================================================================
+
+
+def file_hash( file_path, algo='md5', block_size=4096, block_count=None, hex_=False ):
+    '''
+    Block size directly depends on the block size of your filesystem
+    to avoid performances issues
+    Here I have blocks of 4096 octets (Default NTFS)
+    '''
+    import hashlib
+    m = getattr( hashlib, algo )()
+    with open( file_path, 'rb' ) as f:
+        for chunk in iter( lambda: f.read( block_size ), b'' ):
+            m.update( chunk )
+            if block_count is None:
+                continue
+            if block_count == 0:
+                break
+            block_count -= 1
+    if hex_:
+        return m.hexdigest()
+    return m.digest()
